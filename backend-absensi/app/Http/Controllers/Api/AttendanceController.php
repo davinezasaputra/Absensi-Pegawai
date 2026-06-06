@@ -19,6 +19,7 @@ class AttendanceController extends Controller
      */
     public function checkIn(Request $request)
     {
+        $user = $request->user();
         $request->validate([
             'location_id' => 'required|exists:locations,id',
             'latitude' => 'required|numeric',
@@ -35,7 +36,7 @@ class AttendanceController extends Controller
         if (!$userLocation) {
             return response()->json(['message' => 'Anda tidak ditugaskan untuk absen di lokasi ini.'], 403);
         }
-        $currentTime = Carbon::now()->format('H:i:s');
+        $currentTime = Carbon::now();
         $startTime = Carbon::parse($userLocation->pivot->start_time)->subMinutes(30)->format('H:i:s');
         
         if ($currentTime < $startTime) {
