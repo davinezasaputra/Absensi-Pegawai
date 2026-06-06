@@ -33,4 +33,8 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Location::class, 'location_user')->withPivot('start_time', 'end_time')->withTimestamps();
     }
+    public function comments()
+    {
+        return $this->hasMany(ReportComment::class);
+    }
 }
